@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="me.boger.pjsua2.fragment.SipCallFragment">
+
+    <TextView
+        android:id="@+id/tv_call_display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="6002"
+        android:textColor="@color/dialer_display"
+        android:textSize="40dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_call_answer"
+            style="@style/AppTheme.Dialer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="15dp"
+            android:text="Answer" />
+
+        <TextView
+            android:id="@+id/tv_call_reject"
+            style="@style/AppTheme.Dialer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="15dp"
+            android:text="Reject" />
+    </LinearLayout>
+
+</LinearLayout>

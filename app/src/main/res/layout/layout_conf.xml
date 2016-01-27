@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="5dp"
+        app:columnCount="2">
+
+        <TextView
+            style="@style/AppTheme.Conf"
+            android:text="Server Address:" />
+
+        <EditText
+            android:id="@+id/edt_server_address"
+            style="@style/AppTheme.Conf"
+            app:layout_columnWeight="1" />
+
+        <TextView
+            style="@style/AppTheme.Conf"
+            android:text="Username:" />
+
+        <EditText
+            android:id="@+id/edt_username"
+            style="@style/AppTheme.Conf"
+            app:layout_columnWeight="1" />
+
+        <TextView
+            style="@style/AppTheme.Conf"
+            android:text="Password:" />
+
+        <EditText
+            android:id="@+id/edt_password"
+            style="@style/AppTheme.Conf"
+            app:layout_columnWeight="1" />
+
+    </android.support.v7.widget.GridLayout>
+</LinearLayout>

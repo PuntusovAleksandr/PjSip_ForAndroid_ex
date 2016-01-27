@@ -8,7 +8,9 @@
 
 package org.pjsip.pjsua2;
 
-public class Account {
+import java.io.Serializable;
+
+public class Account implements Serializable {
   private transient long swigCPtr;
   protected transient boolean swigCMemOwn;
 

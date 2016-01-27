@@ -2,4 +2,7 @@
 <resources>
     <color name="pressed_color">#B8F2F5</color>
     <color name="default_color">#E8FEFF</color>
+    <color name="dialer_display">#0099CC</color>
+    <color name="dialer_display_pressed">#006a8e</color>
+    <color name="dialer_display_yellow">#FFFFCC</color>
 </resources>

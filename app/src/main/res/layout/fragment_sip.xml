@@ -1,0 +1,109 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="me.boger.pjsua2.fragment.SipFragment">
+
+    <TextView
+        android:id="@+id/tv_display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:padding="15dp"
+        android:text="6001"
+        android:textColor="@color/dialer_display"
+        android:textSize="35dp" />
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:columnCount="3">
+
+        <TextView
+            android:id="@+id/tv_dialer_7"
+            style="@style/AppTheme.Dialer"
+            android:text="7"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:id="@+id/tv_dialer_8"
+            style="@style/AppTheme.Dialer"
+            android:text="8"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:id="@+id/tv_dialer_9"
+            style="@style/AppTheme.Dialer"
+            android:text="9"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:id="@+id/tv_dialer_4"
+            style="@style/AppTheme.Dialer"
+            android:text="4"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:id="@+id/tv_dialer_5"
+            style="@style/AppTheme.Dialer"
+            android:text="5"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:id="@+id/tv_dialer_6"
+            style="@style/AppTheme.Dialer"
+            android:text="6"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:id="@+id/tv_dialer_1"
+            style="@style/AppTheme.Dialer"
+            android:text="1"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:id="@+id/tv_dialer_2"
+            style="@style/AppTheme.Dialer"
+            android:text="2"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:id="@+id/tv_dialer_3"
+            style="@style/AppTheme.Dialer"
+            android:text="3"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            style="@style/AppTheme.Dialer"
+            android:visibility="invisible"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:id="@+id/tv_dialer_dial"
+            style="@style/AppTheme.Dialer"
+            android:text="Dial"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:id="@+id/tv_dialer_del"
+            style="@style/AppTheme.Dialer"
+            android:text="←"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+    </android.support.v7.widget.GridLayout>
+
+</LinearLayout>
