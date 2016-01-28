@@ -2,16 +2,21 @@ package me.boger.pjsua2.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.boger.pjsua2.MyApplication;
 import me.boger.pjsua2.R;
 
 public class ContentActivity extends FragmentActivity implements ContentView, View.OnClickListener {
@@ -21,6 +26,8 @@ public class ContentActivity extends FragmentActivity implements ContentView, Vi
 
     @Bind(R.id.tv_conf)
     TextView tvConf;
+    @Bind(R.id.tv_close)
+    TextView tvClose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +43,15 @@ public class ContentActivity extends FragmentActivity implements ContentView, Vi
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.instance.getSipServer().deinit();
+    }
+
     private void init() {
         tvConf.setOnClickListener(this);
+        tvClose.setOnClickListener(this);
     }
 
     @Override
@@ -81,6 +95,28 @@ public class ContentActivity extends FragmentActivity implements ContentView, Vi
         return this;
     }
 
+    @Override
+    public void showMsg(String msg) {
+        Snackbar.make(findViewById(R.id.fl_content), msg, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void switchFragment(Fragment from, Class to, String tagTo) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        enableAnimation(transaction);
+        Fragment fragTo = getSupportFragmentManager().findFragmentByTag(tagTo);
+        if (fragTo != null) {
+            transaction.hide(from).show(fragTo).commit();
+        } else {
+            try {
+                transaction.hide(from).add(R.id.fl_content, (Fragment) to.newInstance(), tagTo).commit();
+            } catch (Exception e) {
+                Log.e("ContentActivity", "switchFragment", e);
+                transaction.show(from).commit();
+            }
+        }
+    }
+
     private void enableAnimation(FragmentTransaction transaction) {
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
@@ -94,8 +130,14 @@ public class ContentActivity extends FragmentActivity implements ContentView, Vi
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.tv_conf) {
-            mPresenter.openConfDialog();
+        switch (v.getId()) {
+            case R.id.tv_conf:
+                mPresenter.openConfDialog();
+                break;
+            case R.id.tv_close:
+                mPresenter.closeSipServer();
+                break;
+
         }
     }
 }

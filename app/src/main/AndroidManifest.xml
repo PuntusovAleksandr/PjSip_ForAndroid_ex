@@ -33,7 +33,9 @@
             android:name="org.pjsip.pjsua2.app.CallActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_call" />
-        <activity android:name="me.boger.pjsua2.activity.ContentActivity">
+        <activity
+            android:name="me.boger.pjsua2.activity.ContentActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

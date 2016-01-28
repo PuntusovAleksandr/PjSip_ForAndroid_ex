@@ -5,6 +5,10 @@ package me.boger.pjsua2.activity;
  */
 public interface ContentPresenter {
     void init();
+
     void onResume();
+
     void openConfDialog();
+
+    void closeSipServer();
 }

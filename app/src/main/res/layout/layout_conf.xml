@@ -19,6 +19,7 @@
         <EditText
             android:id="@+id/edt_server_address"
             style="@style/AppTheme.Conf"
+            android:inputType="phone"
             app:layout_columnWeight="1" />
 
         <TextView
@@ -37,6 +38,7 @@
         <EditText
             android:id="@+id/edt_password"
             style="@style/AppTheme.Conf"
+            android:inputType="textPassword"
             app:layout_columnWeight="1" />
 
     </android.support.v7.widget.GridLayout>

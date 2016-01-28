@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import org.pjsip.pjsua2.Buddy;
 import org.pjsip.pjsua2.Call;
 import org.pjsip.pjsua2.CallInfo;
+import org.pjsip.pjsua2.CallOpParam;
 import org.pjsip.pjsua2.pjsip_status_code;
 
 import butterknife.Bind;
@@ -21,6 +23,7 @@ import me.boger.pjsua2.MyApplication;
 import me.boger.pjsua2.R;
 import me.boger.pjsua2.pjsip.SipObservable;
 import me.boger.pjsua2.pjsip.SipServer;
+import me.boger.pjsua2.utils.StorageUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +34,8 @@ public class SipFragment extends BaseFragment implements View.OnClickListener, S
 
     @Bind(R.id.tv_display)
     TextView tvDisplay;
+    @Bind(R.id.tv_dialer_0)
+    TextView tvDialer0;
     @Bind(R.id.tv_dialer_1)
     TextView tvDialer1;
     @Bind(R.id.tv_dialer_2)
@@ -77,7 +82,7 @@ public class SipFragment extends BaseFragment implements View.OnClickListener, S
     }
 
     private void init() {
-        MyApplication.instance.setSipServer(new SipServer(this));
+        tvDialer0.setOnClickListener(this);
         tvDialer1.setOnClickListener(this);
         tvDialer2.setOnClickListener(this);
         tvDialer3.setOnClickListener(this);
@@ -92,9 +97,33 @@ public class SipFragment extends BaseFragment implements View.OnClickListener, S
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        MyApplication.instance.setSipServer(new SipServer(this));
+        loadConfs();
+    }
+
+    private void loadConfs() {
+        String addr = StorageUtils.getString(MyApplication.instance.getApplicationContext(), "addr");
+        String username = StorageUtils.getString(MyApplication.instance.getApplicationContext(), "username");
+        String password = StorageUtils.getString(MyApplication.instance.getApplicationContext(), "password");
+        if (addr == null || username == null || password == null) {
+            return;
+        }
+        MyApplication.instance.getSipServer().createAcc(addr, username, password);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        MyApplication.instance.getSipServer().removeObserver(this);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_dialer_dial:
+                performDial();
                 break;
             case R.id.tv_dialer_del:
                 performDel();
@@ -103,6 +132,18 @@ public class SipFragment extends BaseFragment implements View.OnClickListener, S
                 if (v instanceof TextView) {
                     performDigit(((TextView) v).getText());
                 }
+        }
+    }
+
+    private void performDial() {
+        if (tvDisplay.getText().length() <= 0) {
+            getContentView().showMsg("请输入要呼叫的用户名");
+            return;
+        }
+        if (MyApplication.instance.getSipServer().makeCall(tvDisplay.getText().toString())) {
+            getContentView().switchFragment(this, SipCallFragment.class, SipCallFragment.TAG);
+        } else {
+            getContentView().showMsg("呼叫错误，请重试");
         }
     }
 
@@ -126,9 +167,17 @@ public class SipFragment extends BaseFragment implements View.OnClickListener, S
 
     @Override
     public void notifyIncomingCall(Call call) {
-        //TODO
-        System.out.println("notifyIncomingCall");
-        System.out.println(call);
+        Log.d("SipFragment", "notifyIncomingCall");
+        try {
+            CallOpParam prm = new CallOpParam();
+            prm.setStatusCode(pjsip_status_code.PJSIP_SC_RINGING);
+            call.answer(prm);
+        } catch (Exception e) {
+            Log.e("SipFragment", "notifyIncomingCall", e);
+        }
+        if (hasContentView()) {
+            getContentView().replaceContent(new SipCallFragment(), SipCallFragment.TAG);
+        }
     }
 
     @Override

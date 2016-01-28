@@ -8,14 +8,17 @@ import android.support.v4.app.Fragment;
  * Created by bogerchan on 2015/8/4.
  */
 public interface ContentView {
-    public void replaceContent(Fragment fragment, String tag);
+    void replaceContent(Fragment fragment, String tag);
 
-    public void addContent(Fragment fragment, String tag);
+    void addContent(Fragment fragment, String tag);
 
-    public void removeContent(Fragment fragment, String tag);
+    void removeContent(Fragment fragment, String tag);
 
-    public void hideContent(Fragment fragment, String tag);
+    void hideContent(Fragment fragment, String tag);
 
-    public Context getContext();
+    Context getContext();
 
+    void showMsg(String msg);
+
+    void switchFragment(Fragment from, Class to, String tagTo);
 }

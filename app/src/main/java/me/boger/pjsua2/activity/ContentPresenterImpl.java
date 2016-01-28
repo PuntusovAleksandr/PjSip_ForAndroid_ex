@@ -7,12 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import org.pjsip.pjsua2.AccountConfig;
-
 import me.boger.pjsua2.MyApplication;
 import me.boger.pjsua2.R;
 import me.boger.pjsua2.fragment.SipFragment;
 import me.boger.pjsua2.pjsip.SipServer;
+import me.boger.pjsua2.utils.StorageUtils;
 
 /**
  * Created by boger on 2015/8/4.
@@ -44,7 +43,7 @@ public class ContentPresenterImpl implements ContentPresenter {
         if (MyApplication.instance.getSipServer() == null) {
             return;
         }
-        View view = LayoutInflater.from(MyApplication.instance.getApplicationContext()).inflate(R.layout.layout_conf, null);
+        View view = LayoutInflater.from(contentView.getContext()).inflate(R.layout.layout_conf, null);
         final EditText edtServer = (EditText) view.findViewById(R.id.edt_server_address);
         final EditText edtUsername = (EditText) view.findViewById(R.id.edt_username);
         final EditText edtPassword = (EditText) view.findViewById(R.id.edt_password);
@@ -60,6 +59,7 @@ public class ContentPresenterImpl implements ContentPresenter {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MyApplication.instance.getSipServer().modifyAcc(edtServer.getText().toString(), edtUsername.getText().toString(), edtPassword.getText().toString());
+                        saveConfs(edtServer.getText().toString(), edtUsername.getText().toString(), edtPassword.getText().toString());
                         dialog.dismiss();
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -68,5 +68,22 @@ public class ContentPresenterImpl implements ContentPresenter {
                 dialog.dismiss();
             }
         }).show();
+    }
+
+    private void saveConfs(String addr, String username, String password) {
+        StorageUtils.createStorager(contentView.getContext())
+                .putString("addr", addr)
+                .putString("username", username)
+                .putString("password", password)
+                .commit();
+    }
+
+    @Override
+    public void closeSipServer() {
+        if (MyApplication.instance.getSipServer() == null) {
+            return;
+        }
+        MyApplication.instance.getSipServer().deinit();
+        contentView.showMsg("服务已经关闭");
     }
 }

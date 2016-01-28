@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import me.boger.pjsua2.activity.ContentView;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -44,5 +46,13 @@ public class BaseFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         Log.d(getTag(), "onDestroy");
+    }
+
+    public ContentView getContentView() {
+        return (ContentView) getActivity();
+    }
+
+    public boolean hasContentView() {
+        return getActivity() != null;
     }
 }

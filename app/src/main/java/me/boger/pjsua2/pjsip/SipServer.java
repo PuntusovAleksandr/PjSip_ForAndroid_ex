@@ -18,13 +18,16 @@ import org.pjsip.pjsua2.pjsip_inv_state;
 import org.pjsip.pjsua2.pjsip_status_code;
 import org.pjsip.pjsua2.pjsip_transport_type_e;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by bogerchan on 2016/1/27.
  */
 public class SipServer implements SipObservable {
 
     private Endpoint ep = new Endpoint();
-    public SipObservable observer;
+    public List<SipObservable> observers = new ArrayList<>();
     private EpConfig epConfig = new EpConfig();
     private TransportConfig sipTpConfig = new TransportConfig();
     private final int SIP_PORT = 6000;
@@ -38,8 +41,16 @@ public class SipServer implements SipObservable {
     }
 
     public SipServer(SipObservable observable) {
-        this.observer = observable;
+        this.observers.add(observable);
         init();
+    }
+
+    public void addObserver(SipObservable observer) {
+        this.observers.add(observer);
+    }
+
+    public void removeObserver(SipObservable observer) {
+        this.observers.remove(observer);
     }
 
     private void init() {
@@ -64,7 +75,7 @@ public class SipServer implements SipObservable {
     }
 
     public void createAcc(String addr, String user, String pwd) {
-        acc = new SipAccount(this);
+        acc = new SipAccount(this, ep);
         accCfg = new AccountConfig();
         modifyAccCfg(addr, user, pwd, null);
         try {
@@ -107,23 +118,6 @@ public class SipServer implements SipObservable {
         return accCfg;
     }
 
-    public void notifyCallState(SipCall call) {
-        if (currentCall == null || call.getId() != currentCall.getId())
-            return;
-
-        CallInfo ci;
-        try {
-            ci = call.getInfo();
-        } catch (Exception e) {
-            ci = null;
-        }
-        notifyCallState(ci);
-        if (ci != null &&
-                ci.getState() == pjsip_inv_state.PJSIP_INV_STATE_DISCONNECTED) {
-            currentCall = null;
-        }
-    }
-
     public AccountConfig getAccountConfig() {
         return accCfg;
     }
@@ -158,7 +152,7 @@ public class SipServer implements SipObservable {
         CallOpParam prm = new CallOpParam(true);
 
         try {
-            call.makeCall(String.format("sip:%1$s@%2$s", user, accCfg.getIdUri()), prm);
+            call.makeCall(String.format("sip:%1$s@%2$s", user, getServerAddress()), prm);
         } catch (Exception e) {
             call.delete();
             return false;
@@ -175,6 +169,7 @@ public class SipServer implements SipObservable {
         prm.setStatusCode(pjsip_status_code.PJSIP_SC_DECLINE);
         try {
             currentCall.hangup(prm);
+            currentCall = null;
         } catch (Exception e) {
             Log.e("SipServer", "hangupCurrentCall", e);
             return false;
@@ -182,9 +177,41 @@ public class SipServer implements SipObservable {
         return true;
     }
 
+    public boolean answerCurrentCall() {
+        CallOpParam prm = new CallOpParam();
+        prm.setStatusCode(pjsip_status_code.PJSIP_SC_OK);
+        try {
+            currentCall.answer(prm);
+            return true;
+        } catch (Exception e) {
+            Log.e("SipCallFragment", "performAnswer", e);
+            return false;
+        }
+    }
+
+    public SipCall getCurrentCall() {
+        return currentCall;
+    }
+
+    public void deinit() {
+        if (ep == null) {
+            return;
+        }
+        Runtime.getRuntime().gc();
+        try {
+            ep.libDestroy();
+        } catch (Exception e) {
+            Log.e("SipServer", "deinit", e);
+        }
+        ep.delete();
+        ep = null;
+    }
+
     @Override
     public void notifyRegState(pjsip_status_code code, String reason, int expiration) {
-        observer.notifyRegState(code, reason, expiration);
+        for (SipObservable observer : observers) {
+            observer.notifyRegState(code, reason, expiration);
+        }
     }
 
     @Override
@@ -194,17 +221,27 @@ public class SipServer implements SipObservable {
             Log.d("ProxyObserver", "notifyIncomingCall-current call is not null!");
             return;
         }
-        observer.notifyIncomingCall(call);
+        currentCall = (SipCall) call;
+        for (SipObservable observer : observers) {
+            observer.notifyIncomingCall(call);
+        }
     }
 
     @Override
     public void notifyCallState(Call call) {
-        observer.notifyCallState(call);
+        if (currentCall == null || call.getId() != currentCall.getId()) {
+            return;
+        }
+        for (SipObservable observer : observers) {
+            observer.notifyCallState(call);
+        }
         try {
             CallInfo ci = call.getInfo();
+            notifyCallState(ci);
             if (ci.getState() ==
                     pjsip_inv_state.PJSIP_INV_STATE_DISCONNECTED) {
                 call.delete();
+                currentCall = null;
             }
         } catch (Exception e) {
             return;
@@ -213,17 +250,23 @@ public class SipServer implements SipObservable {
 
     @Override
     public void notifyCallState(CallInfo callInfo) {
-        observer.notifyCallState(callInfo);
+        for (SipObservable observer : observers) {
+            observer.notifyCallState(callInfo);
+        }
     }
 
     @Override
     public void notifyCallMediaState(Call call) {
-        observer.notifyCallMediaState(call);
+        for (SipObservable observer : observers) {
+            observer.notifyCallMediaState(call);
+        }
     }
 
     @Override
     public void notifyBuddyState(Buddy buddy) {
-        observer.notifyBuddyState(buddy);
+        for (SipObservable observer : observers) {
+            observer.notifyBuddyState(buddy);
+        }
         notifyCallState(currentCall);
     }
 }

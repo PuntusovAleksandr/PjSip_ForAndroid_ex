@@ -28,6 +28,16 @@
             android:text="Conf"
             android:textColor="@color/dialer_display"
             android:textSize="21dp" />
+
+        <TextView
+            android:id="@+id/tv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:paddingRight="20dp"
+            android:text="Close"
+            android:textColor="@color/dialer_display"
+            android:textSize="21dp" />
     </LinearLayout>
 
     <FrameLayout

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import org.pjsip.pjsua2.Account;
 import org.pjsip.pjsua2.Call;
+import org.pjsip.pjsua2.Endpoint;
 import org.pjsip.pjsua2.OnIncomingCallParam;
 import org.pjsip.pjsua2.OnInstantMessageParam;
 import org.pjsip.pjsua2.OnRegStateParam;
@@ -14,20 +15,23 @@ import org.pjsip.pjsua2.OnRegStateParam;
 public class SipAccount extends Account {
 
     private SipObservable observable;
+    private Endpoint ep;
 
-    public SipAccount(long cPtr, boolean cMemoryOwn, SipObservable observable) {
+    public SipAccount(long cPtr, boolean cMemoryOwn, SipObservable observable, Endpoint ep) {
         super(cPtr, cMemoryOwn);
         this.observable = observable;
+        this.ep = ep;
     }
 
-    public SipAccount(SipObservable observable) {
+    public SipAccount(SipObservable observable, Endpoint ep) {
         super();
         this.observable = observable;
+        this.ep = ep;
     }
 
     @Override
     public void onIncomingCall(OnIncomingCallParam prm) {
-        Call call = new Call(this, prm.getCallId());
+        SipCall call = new SipCall(this, prm.getCallId(), observable, ep);
         observable.notifyIncomingCall(call);
     }
 
