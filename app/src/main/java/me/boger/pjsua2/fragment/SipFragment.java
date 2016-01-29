@@ -21,6 +21,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.boger.pjsua2.MyApplication;
 import me.boger.pjsua2.R;
+import me.boger.pjsua2.pjsip.SipCall;
 import me.boger.pjsua2.pjsip.SipObservable;
 import me.boger.pjsua2.pjsip.SipServer;
 import me.boger.pjsua2.utils.StorageUtils;
@@ -176,7 +177,7 @@ public class SipFragment extends BaseFragment implements View.OnClickListener, S
             Log.e("SipFragment", "notifyIncomingCall", e);
         }
         if (hasContentView()) {
-            getContentView().replaceContent(new SipCallFragment(), SipCallFragment.TAG);
+            getContentView().switchFragment(this, SipCallFragment.class, SipCallFragment.TAG);
         }
     }
 

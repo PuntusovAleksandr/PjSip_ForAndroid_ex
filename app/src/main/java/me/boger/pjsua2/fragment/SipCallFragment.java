@@ -13,7 +13,6 @@ import android.widget.TextView;
 import org.pjsip.pjsua2.Buddy;
 import org.pjsip.pjsua2.Call;
 import org.pjsip.pjsua2.CallInfo;
-import org.pjsip.pjsua2.CallOpParam;
 import org.pjsip.pjsua2.pjsip_inv_state;
 import org.pjsip.pjsua2.pjsip_status_code;
 
@@ -21,7 +20,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.boger.pjsua2.MyApplication;
 import me.boger.pjsua2.R;
-import me.boger.pjsua2.pjsip.SipCall;
 import me.boger.pjsua2.pjsip.SipObservable;
 import me.boger.pjsua2.pjsip.SipServer;
 
@@ -69,14 +67,6 @@ public class SipCallFragment extends BaseFragment implements View.OnClickListene
             return;
         }
         server.addObserver(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (server != null) {
-            server.removeObserver(this);
-        }
     }
 
     private void init() {
@@ -132,6 +122,7 @@ public class SipCallFragment extends BaseFragment implements View.OnClickListene
     public void notifyCallState(CallInfo callInfo) {
         Log.d("SipCallFragment", "notifyCallState-" + callInfo.getState().toString());
         if (callInfo.getState() == pjsip_inv_state.PJSIP_INV_STATE_EARLY) {
+            tvAnswer.setVisibility(View.VISIBLE);
             tvDisplay.setText(callInfo.getRemoteUri());
         } else if (callInfo.getState() == pjsip_inv_state.PJSIP_INV_STATE_DISCONNECTED) {
             popBackStack();
