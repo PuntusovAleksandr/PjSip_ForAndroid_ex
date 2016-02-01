@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.pjsip.pjsua2.Buddy;
 import org.pjsip.pjsua2.Call;
 import org.pjsip.pjsua2.CallInfo;
 import org.pjsip.pjsua2.pjsip_inv_state;
@@ -141,11 +140,6 @@ public class SipCallFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void notifyCallMediaState(Call call) {
-
-    }
-
-    @Override
-    public void notifyBuddyState(Buddy buddy) {
 
     }
 }

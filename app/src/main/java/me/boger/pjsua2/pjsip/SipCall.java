@@ -21,20 +21,8 @@ public class SipCall extends Call {
     private SipObservable observer;
     private Endpoint ep;
 
-    protected SipCall(long cPtr, boolean cMemoryOwn, SipObservable observer, Endpoint ep) {
-        super(cPtr, cMemoryOwn);
-        this.observer = observer;
-        this.ep = ep;
-    }
-
     public SipCall(Account acc, int call_id, SipObservable observer, Endpoint ep) {
         super(acc, call_id);
-        this.observer = observer;
-        this.ep = ep;
-    }
-
-    public SipCall(Account acc, SipObservable observer, Endpoint ep) {
-        super(acc);
         this.observer = observer;
         this.ep = ep;
     }

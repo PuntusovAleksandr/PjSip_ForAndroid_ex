@@ -9,38 +9,29 @@
 package org.pjsip.pjsua2;
 
 public class PersistentObject {
-  private transient long swigCPtr;
-  protected transient boolean swigCMemOwn;
+    private transient long swigCPtr;
+    protected transient boolean swigCMemOwn;
 
-  protected PersistentObject(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
-
-  protected static long getCPtr(PersistentObject obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
-
-  protected void finalize() {
-    delete();
-  }
-
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        pjsua2JNI.delete_PersistentObject(swigCPtr);
-      }
-      swigCPtr = 0;
+    protected PersistentObject(long cPtr, boolean cMemoryOwn) {
+        swigCMemOwn = cMemoryOwn;
+        swigCPtr = cPtr;
     }
-  }
 
-  public void readObject(ContainerNode node) throws java.lang.Exception {
-    pjsua2JNI.PersistentObject_readObject(swigCPtr, this, ContainerNode.getCPtr(node), node);
-  }
+    protected static long getCPtr(PersistentObject obj) {
+        return (obj == null) ? 0 : obj.swigCPtr;
+    }
 
-  public void writeObject(ContainerNode node) throws java.lang.Exception {
-    pjsua2JNI.PersistentObject_writeObject(swigCPtr, this, ContainerNode.getCPtr(node), node);
-  }
+    protected void finalize() {
+        delete();
+    }
 
+    public synchronized void delete() {
+        if (swigCPtr != 0) {
+            if (swigCMemOwn) {
+                swigCMemOwn = false;
+                pjsua2JNI.delete_PersistentObject(swigCPtr);
+            }
+            swigCPtr = 0;
+        }
+    }
 }

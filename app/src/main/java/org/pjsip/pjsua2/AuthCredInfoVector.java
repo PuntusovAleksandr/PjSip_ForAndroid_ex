@@ -9,70 +9,45 @@
 package org.pjsip.pjsua2;
 
 public class AuthCredInfoVector {
-  private transient long swigCPtr;
-  protected transient boolean swigCMemOwn;
+    private transient long swigCPtr;
+    protected transient boolean swigCMemOwn;
 
-  protected AuthCredInfoVector(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
-
-  protected static long getCPtr(AuthCredInfoVector obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
-
-  protected void finalize() {
-    delete();
-  }
-
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        pjsua2JNI.delete_AuthCredInfoVector(swigCPtr);
-      }
-      swigCPtr = 0;
+    protected AuthCredInfoVector(long cPtr, boolean cMemoryOwn) {
+        swigCMemOwn = cMemoryOwn;
+        swigCPtr = cPtr;
     }
-  }
 
-  public AuthCredInfoVector() {
-    this(pjsua2JNI.new_AuthCredInfoVector__SWIG_0(), true);
-  }
+    protected static long getCPtr(AuthCredInfoVector obj) {
+        return (obj == null) ? 0 : obj.swigCPtr;
+    }
 
-  public AuthCredInfoVector(long n) {
-    this(pjsua2JNI.new_AuthCredInfoVector__SWIG_1(n), true);
-  }
+    protected void finalize() {
+        delete();
+    }
 
-  public long size() {
-    return pjsua2JNI.AuthCredInfoVector_size(swigCPtr, this);
-  }
+    public synchronized void delete() {
+        if (swigCPtr != 0) {
+            if (swigCMemOwn) {
+                swigCMemOwn = false;
+                pjsua2JNI.delete_AuthCredInfoVector(swigCPtr);
+            }
+            swigCPtr = 0;
+        }
+    }
 
-  public long capacity() {
-    return pjsua2JNI.AuthCredInfoVector_capacity(swigCPtr, this);
-  }
+    public long size() {
+        return pjsua2JNI.AuthCredInfoVector_size(swigCPtr, this);
+    }
 
-  public void reserve(long n) {
-    pjsua2JNI.AuthCredInfoVector_reserve(swigCPtr, this, n);
-  }
+    public void clear() {
+        pjsua2JNI.AuthCredInfoVector_clear(swigCPtr, this);
+    }
 
-  public boolean isEmpty() {
-    return pjsua2JNI.AuthCredInfoVector_isEmpty(swigCPtr, this);
-  }
+    public void add(AuthCredInfo x) {
+        pjsua2JNI.AuthCredInfoVector_add(swigCPtr, this, AuthCredInfo.getCPtr(x), x);
+    }
 
-  public void clear() {
-    pjsua2JNI.AuthCredInfoVector_clear(swigCPtr, this);
-  }
-
-  public void add(AuthCredInfo x) {
-    pjsua2JNI.AuthCredInfoVector_add(swigCPtr, this, AuthCredInfo.getCPtr(x), x);
-  }
-
-  public AuthCredInfo get(int i) {
-    return new AuthCredInfo(pjsua2JNI.AuthCredInfoVector_get(swigCPtr, this, i), false);
-  }
-
-  public void set(int i, AuthCredInfo val) {
-    pjsua2JNI.AuthCredInfoVector_set(swigCPtr, this, i, AuthCredInfo.getCPtr(val), val);
-  }
-
+    public AuthCredInfo get(int i) {
+        return new AuthCredInfo(pjsua2JNI.AuthCredInfoVector_get(swigCPtr, this, i), false);
+    }
 }

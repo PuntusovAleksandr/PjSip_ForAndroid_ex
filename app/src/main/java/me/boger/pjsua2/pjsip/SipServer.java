@@ -6,7 +6,6 @@ import org.pjsip.pjsua2.Account;
 import org.pjsip.pjsua2.AccountConfig;
 import org.pjsip.pjsua2.AuthCredInfo;
 import org.pjsip.pjsua2.AuthCredInfoVector;
-import org.pjsip.pjsua2.Buddy;
 import org.pjsip.pjsua2.Call;
 import org.pjsip.pjsua2.CallInfo;
 import org.pjsip.pjsua2.CallOpParam;
@@ -260,13 +259,5 @@ public class SipServer implements SipObservable {
         for (SipObservable observer : observers) {
             observer.notifyCallMediaState(call);
         }
-    }
-
-    @Override
-    public void notifyBuddyState(Buddy buddy) {
-        for (SipObservable observer : observers) {
-            observer.notifyBuddyState(buddy);
-        }
-        notifyCallState(currentCall);
     }
 }

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.pjsip.pjsua2.Buddy;
 import org.pjsip.pjsua2.Call;
 import org.pjsip.pjsua2.CallInfo;
 import org.pjsip.pjsua2.CallOpParam;
@@ -21,7 +20,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.boger.pjsua2.MyApplication;
 import me.boger.pjsua2.R;
-import me.boger.pjsua2.pjsip.SipCall;
 import me.boger.pjsua2.pjsip.SipObservable;
 import me.boger.pjsua2.pjsip.SipServer;
 import me.boger.pjsua2.utils.StorageUtils;
@@ -197,11 +195,5 @@ public class SipFragment extends BaseFragment implements View.OnClickListener, S
     public void notifyCallMediaState(Call call) {
         System.out.println("notifyCallMediaState");
         System.out.println(call);
-    }
-
-    @Override
-    public void notifyBuddyState(Buddy buddy) {
-        System.out.println("notifyBuddyState");
-        System.out.println(buddy);
     }
 }

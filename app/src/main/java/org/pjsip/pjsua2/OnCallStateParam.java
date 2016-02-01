@@ -9,43 +9,29 @@
 package org.pjsip.pjsua2;
 
 public class OnCallStateParam {
-  private transient long swigCPtr;
-  protected transient boolean swigCMemOwn;
+    private transient long swigCPtr;
+    protected transient boolean swigCMemOwn;
 
-  protected OnCallStateParam(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
-
-  protected static long getCPtr(OnCallStateParam obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
-
-  protected void finalize() {
-    delete();
-  }
-
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        pjsua2JNI.delete_OnCallStateParam(swigCPtr);
-      }
-      swigCPtr = 0;
+    protected OnCallStateParam(long cPtr, boolean cMemoryOwn) {
+        swigCMemOwn = cMemoryOwn;
+        swigCPtr = cPtr;
     }
-  }
 
-  public void setE(SipEvent value) {
-    pjsua2JNI.OnCallStateParam_e_set(swigCPtr, this, SipEvent.getCPtr(value), value);
-  }
+    protected static long getCPtr(OnCallStateParam obj) {
+        return (obj == null) ? 0 : obj.swigCPtr;
+    }
 
-  public SipEvent getE() {
-    long cPtr = pjsua2JNI.OnCallStateParam_e_get(swigCPtr, this);
-    return (cPtr == 0) ? null : new SipEvent(cPtr, false);
-  }
+    protected void finalize() {
+        delete();
+    }
 
-  public OnCallStateParam() {
-    this(pjsua2JNI.new_OnCallStateParam(), true);
-  }
-
+    public synchronized void delete() {
+        if (swigCPtr != 0) {
+            if (swigCMemOwn) {
+                swigCMemOwn = false;
+                pjsua2JNI.delete_OnCallStateParam(swigCPtr);
+            }
+            swigCPtr = 0;
+        }
+    }
 }

@@ -9,51 +9,33 @@
 package org.pjsip.pjsua2;
 
 public class OnIncomingCallParam {
-  private transient long swigCPtr;
-  protected transient boolean swigCMemOwn;
+    private transient long swigCPtr;
+    protected transient boolean swigCMemOwn;
 
-  protected OnIncomingCallParam(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
-
-  protected static long getCPtr(OnIncomingCallParam obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
-
-  protected void finalize() {
-    delete();
-  }
-
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        pjsua2JNI.delete_OnIncomingCallParam(swigCPtr);
-      }
-      swigCPtr = 0;
+    protected OnIncomingCallParam(long cPtr, boolean cMemoryOwn) {
+        swigCMemOwn = cMemoryOwn;
+        swigCPtr = cPtr;
     }
-  }
 
-  public void setCallId(int value) {
-    pjsua2JNI.OnIncomingCallParam_callId_set(swigCPtr, this, value);
-  }
+    protected static long getCPtr(OnIncomingCallParam obj) {
+        return (obj == null) ? 0 : obj.swigCPtr;
+    }
 
-  public int getCallId() {
-    return pjsua2JNI.OnIncomingCallParam_callId_get(swigCPtr, this);
-  }
+    protected void finalize() {
+        delete();
+    }
 
-  public void setRdata(SipRxData value) {
-    pjsua2JNI.OnIncomingCallParam_rdata_set(swigCPtr, this, SipRxData.getCPtr(value), value);
-  }
+    public synchronized void delete() {
+        if (swigCPtr != 0) {
+            if (swigCMemOwn) {
+                swigCMemOwn = false;
+                pjsua2JNI.delete_OnIncomingCallParam(swigCPtr);
+            }
+            swigCPtr = 0;
+        }
+    }
 
-  public SipRxData getRdata() {
-    long cPtr = pjsua2JNI.OnIncomingCallParam_rdata_get(swigCPtr, this);
-    return (cPtr == 0) ? null : new SipRxData(cPtr, false);
-  }
-
-  public OnIncomingCallParam() {
-    this(pjsua2JNI.new_OnIncomingCallParam(), true);
-  }
-
+    public int getCallId() {
+        return pjsua2JNI.OnIncomingCallParam_callId_get(swigCPtr, this);
+    }
 }

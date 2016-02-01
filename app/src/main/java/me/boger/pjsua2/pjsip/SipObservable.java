@@ -1,6 +1,5 @@
 package me.boger.pjsua2.pjsip;
 
-import org.pjsip.pjsua2.Buddy;
 import org.pjsip.pjsua2.Call;
 import org.pjsip.pjsua2.CallInfo;
 import org.pjsip.pjsua2.pjsip_status_code;
@@ -19,6 +18,4 @@ public interface SipObservable {
     void notifyCallState(CallInfo callInfo);
 
     void notifyCallMediaState(Call call);
-
-    void notifyBuddyState(Buddy buddy);
 }

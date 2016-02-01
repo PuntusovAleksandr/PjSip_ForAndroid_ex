@@ -9,34 +9,29 @@
 package org.pjsip.pjsua2;
 
 public class Media {
-  private transient long swigCPtr;
-  protected transient boolean swigCMemOwn;
+    private transient long swigCPtr;
+    protected transient boolean swigCMemOwn;
 
-  protected Media(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
-
-  protected static long getCPtr(Media obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
-
-  protected void finalize() {
-    delete();
-  }
-
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        pjsua2JNI.delete_Media(swigCPtr);
-      }
-      swigCPtr = 0;
+    protected Media(long cPtr, boolean cMemoryOwn) {
+        swigCMemOwn = cMemoryOwn;
+        swigCPtr = cPtr;
     }
-  }
 
-  public pjmedia_type getType() {
-    return pjmedia_type.swigToEnum(pjsua2JNI.Media_getType(swigCPtr, this));
-  }
+    protected static long getCPtr(Media obj) {
+        return (obj == null) ? 0 : obj.swigCPtr;
+    }
 
+    protected void finalize() {
+        delete();
+    }
+
+    public synchronized void delete() {
+        if (swigCPtr != 0) {
+            if (swigCMemOwn) {
+                swigCMemOwn = false;
+                pjsua2JNI.delete_Media(swigCPtr);
+            }
+            swigCPtr = 0;
+        }
+    }
 }
