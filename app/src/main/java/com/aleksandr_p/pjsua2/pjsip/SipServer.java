@@ -73,6 +73,10 @@ public class SipServer implements SipObservable {
         }
     }
 
+    public Account getAcc() {
+        return acc;
+    }
+
     public void createAcc(String addr, String user, String pwd) {
         acc = new SipAccount(this, ep);
         accCfg = new AccountConfig();

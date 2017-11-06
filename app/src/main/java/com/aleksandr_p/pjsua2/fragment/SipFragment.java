@@ -2,8 +2,6 @@ package com.aleksandr_p.pjsua2.fragment;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,26 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.aleksandr_p.pjsua2.MyApplication;
+import com.aleksandr_p.pjsua2.App;
 import com.aleksandr_p.pjsua2.R;
 import com.aleksandr_p.pjsua2.activity.ContentPresenterImpl;
-import com.aleksandr_p.pjsua2.pjsip.SipObservable;
 import com.aleksandr_p.pjsua2.pjsip.SipServer;
 import com.aleksandr_p.pjsua2.utils.StorageUtils;
-
-import org.pjsip.pjsua2.Call;
-import org.pjsip.pjsua2.CallInfo;
-import org.pjsip.pjsua2.CallOpParam;
-import org.pjsip.pjsua2.pjsip_status_code;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.aleksandr_p.pjsua2.activity.ContentActivity.SIP_CALL_KEY;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SipFragment extends BaseFragment implements SipObservable {
+public class SipFragment extends BaseFragment {
 
     public static final String TAG = "SipFragment";
 
@@ -67,38 +61,32 @@ public class SipFragment extends BaseFragment implements SipObservable {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sip, container, false);
-    }
+        View inflate = inflater.inflate(R.layout.fragment_sip, container, false);
+        ButterKnife.bind(this, inflate);
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
-        rootView = view;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        MyApplication.instance.setSipServer(new SipServer(this));
         loadConfs();
+
+        rootView = inflate;
+        return inflate;
     }
 
     private void loadConfs() {
-        String addr = StorageUtils.getString(MyApplication.instance.getApplicationContext(), "addr");
-        String username = StorageUtils.getString(MyApplication.instance.getApplicationContext(), "username");
-        String password = StorageUtils.getString(MyApplication.instance.getApplicationContext(), "password");
+        String addr = StorageUtils.getString(App.instance.getApplicationContext(), "addr");
+        String username = StorageUtils.getString(App.instance.getApplicationContext(), "username");
+        String password = StorageUtils.getString(App.instance.getApplicationContext(), "password");
         if (addr == null || username == null || password == null) {
             saveConfs(ContentPresenterImpl.HOST, ContentPresenterImpl.ESER, ContentPresenterImpl.PASSWORD);
             loadConfs();
             return;
         }
-        MyApplication.instance.getSipServer().createAcc(addr, username, password);
+        if (App.instance.getSipServer().getAcc() != null) {
+            return;
+        }
+        App.instance.getSipServer().createAcc(addr, username, password);
     }
 
 
@@ -110,14 +98,7 @@ public class SipFragment extends BaseFragment implements SipObservable {
                 .commit();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        MyApplication.instance.getSipServer().removeObserver(this);
-    }
-
-
-        @OnClick({R.id.tv_dialer_dial,
+    @OnClick({R.id.tv_dialer_dial,
             R.id.tv_dialer_del,
             R.id.tv_dialer_0,
             R.id.tv_dialer_1,
@@ -149,13 +130,19 @@ public class SipFragment extends BaseFragment implements SipObservable {
 
     private void performDial() {
         if (tvDisplay.getText().length() <= 0) {
-            getContentView().showMsg("请输入要呼叫的用户名");
+            getContentView().showMsg("Введите имя пользователя, которое вы хотите позвонить.");
             return;
         }
-        if (MyApplication.instance.getSipServer().makeCall(tvDisplay.getText().toString())) {
-            getContentView().switchFragment(this, SipCallFragment.class, SipCallFragment.TAG);
+        SipServer sipServer = App.instance.getSipServer();
+        if (sipServer.makeCall(tvDisplay.getText().toString())) {
+            Log.d("SipCall_", "setFragment: __5__ ");
+            if (sipServer == null || sipServer.getCurrentCall() == null) {
+                getContentView().showMsg("Ошибка при вызове, повторите попытку.");
+                return;
+            }
+            getContentView().switchFragment(SIP_CALL_KEY);
         } else {
-            getContentView().showMsg("呼叫错误，请重试");
+            getContentView().showMsg("Ошибка при вызове, повторите попытку.");
         }
     }
 
@@ -168,45 +155,5 @@ public class SipFragment extends BaseFragment implements SipObservable {
             return;
         }
         tvDisplay.setText(tvDisplay.getText().subSequence(0, tvDisplay.getText().length() - 1));
-    }
-
-    @Override
-    public void notifyRegState(pjsip_status_code code, String reason, int expiration) {
-        String msgStr = expiration == 0 ? "Unregistration" : "Registration";
-        msgStr += code.swigValue() / 100 == 2 ? " successful" : (" failed: " + reason);
-        Snackbar.make(rootView, msgStr, Snackbar.LENGTH_SHORT);
-    }
-
-    @Override
-    public void notifyIncomingCall(Call call) {
-        Log.d("SipFragment", "notifyIncomingCall");
-        try {
-            CallOpParam prm = new CallOpParam();
-            prm.setStatusCode(pjsip_status_code.PJSIP_SC_RINGING);
-            call.answer(prm);
-        } catch (Exception e) {
-            Log.e("SipFragment", "notifyIncomingCall", e);
-        }
-        if (hasContentView()) {
-            getContentView().switchFragment(this, SipCallFragment.class, SipCallFragment.TAG);
-        }
-    }
-
-    @Override
-    public void notifyCallState(Call call) {
-        System.out.println("notifyCallState");
-        System.out.println(call);
-    }
-
-    @Override
-    public void notifyCallState(CallInfo callInfo) {
-        System.out.println("notifyCallState");
-        System.out.println(callInfo);
-    }
-
-    @Override
-    public void notifyCallMediaState(Call call) {
-        System.out.println("notifyCallMediaState");
-        System.out.println(call);
     }
 }
