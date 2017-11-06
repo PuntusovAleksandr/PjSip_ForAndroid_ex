@@ -11,6 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.aleksandr_p.pjsua2.MyApplication;
+import com.aleksandr_p.pjsua2.R;
+import com.aleksandr_p.pjsua2.activity.ContentPresenterImpl;
+import com.aleksandr_p.pjsua2.pjsip.SipObservable;
+import com.aleksandr_p.pjsua2.pjsip.SipServer;
+import com.aleksandr_p.pjsua2.utils.StorageUtils;
+
 import org.pjsip.pjsua2.Call;
 import org.pjsip.pjsua2.CallInfo;
 import org.pjsip.pjsua2.CallOpParam;
@@ -19,12 +26,6 @@ import org.pjsip.pjsua2.pjsip_status_code;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.aleksandr_p.pjsua2.MyApplication;
-import com.aleksandr_p.pjsua2.R;
-import com.aleksandr_p.pjsua2.activity.ContentPresenterImpl;
-import com.aleksandr_p.pjsua2.pjsip.SipObservable;
-import com.aleksandr_p.pjsua2.pjsip.SipServer;
-import com.aleksandr_p.pjsua2.utils.StorageUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -116,19 +117,19 @@ public class SipFragment extends BaseFragment implements SipObservable {
     }
 
 
-    //    @OnClick({R.id.tv_dialer_dial,
-//            R.id.tv_dialer_del,
-//            R.id.tv_dialer_0,
-//            R.id.tv_dialer_1,
-//            R.id.tv_dialer_2,
-//            R.id.tv_dialer_3,
-//            R.id.tv_dialer_4,
-//            R.id.tv_dialer_5,
-//            R.id.tv_dialer_6,
-//            R.id.tv_dialer_8,
-//            R.id.tv_dialer_8,
-//            R.id.tv_dialer_9,
-//            R.id.tv_display})
+        @OnClick({R.id.tv_dialer_dial,
+            R.id.tv_dialer_del,
+            R.id.tv_dialer_0,
+            R.id.tv_dialer_1,
+            R.id.tv_dialer_2,
+            R.id.tv_dialer_3,
+            R.id.tv_dialer_4,
+            R.id.tv_dialer_5,
+            R.id.tv_dialer_6,
+            R.id.tv_dialer_8,
+            R.id.tv_dialer_7,
+            R.id.tv_dialer_9,
+            R.id.tv_display})
     public void clicksiews(View v) {
         switch (v.getId()) {
             case R.id.tv_dialer_dial:
@@ -144,11 +145,6 @@ public class SipFragment extends BaseFragment implements SipObservable {
                     performDigit(((TextView) v).getText());
                 }
         }
-    }
-
-    @OnClick(R.id.tv_dialer_dial)
-    public void clDial() {
-        performDial();
     }
 
     private void performDial() {
