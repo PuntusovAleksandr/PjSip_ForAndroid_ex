@@ -1,4 +1,4 @@
-package me.boger.pjsua2.activity;
+package com.aleksandr_p.pjsua2.activity;
 
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
@@ -7,16 +7,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import me.boger.pjsua2.MyApplication;
-import me.boger.pjsua2.R;
-import me.boger.pjsua2.fragment.SipFragment;
-import me.boger.pjsua2.pjsip.SipServer;
-import me.boger.pjsua2.utils.StorageUtils;
+import com.aleksandr_p.pjsua2.MyApplication;
+import com.aleksandr_p.pjsua2.R;
+import com.aleksandr_p.pjsua2.fragment.SipFragment;
+import com.aleksandr_p.pjsua2.pjsip.SipServer;
+import com.aleksandr_p.pjsua2.utils.StorageUtils;
 
 /**
  * Created by boger on 2015/8/4.
  */
 public class ContentPresenterImpl implements ContentPresenter {
+
+    public static final String HOST = "80.209.239.116";
+    public static final String PORT = "5060";
+    public static final String ESER = "1021";
+    public static final String PASSWORD = "il9ei1h9eS8ieR";
+//    sip_host: 80.209.239.116
+// sip_port: 5060
+// sip_login: 1021
+// sip_pass: il9ei1h9eS8ieR
+// sip_host: 80.209.239.116
+// sip_port: 5060
+// sip_login: 1022
+// sip_pass: Ahg3Ai35ueil9e
 
     private ContentView contentView;
 

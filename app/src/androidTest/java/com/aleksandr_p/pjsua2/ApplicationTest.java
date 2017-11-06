@@ -1,4 +1,4 @@
-package me.boger.pjsua2;
+package com.aleksandr_p.pjsua2;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

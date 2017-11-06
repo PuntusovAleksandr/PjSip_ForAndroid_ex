@@ -1,4 +1,4 @@
-package me.boger.pjsua2.utils;
+package com.aleksandr_p.pjsua2.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

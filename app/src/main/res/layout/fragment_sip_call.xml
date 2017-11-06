@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="me.boger.pjsua2.fragment.SipCallFragment">
+    tools:context="com.aleksandr_p.pjsua2.fragment.SipCallFragment">
 
     <TextView
         android:id="@+id/tv_call_display"
@@ -12,7 +12,7 @@
         android:layout_weight="3"
         android:gravity="center"
         android:padding="10dp"
-        android:text="6002"
+        android:text="1022"
         android:textColor="@color/dialer_display"
         android:textSize="40dp" />
 

@@ -1,4 +1,4 @@
-package me.boger.pjsua2.fragment;
+package com.aleksandr_p.pjsua2.fragment;
 
 
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import me.boger.pjsua2.activity.ContentView;
+import com.aleksandr_p.pjsua2.activity.ContentView;
 
 /**
  * A simple {@link Fragment} subclass.

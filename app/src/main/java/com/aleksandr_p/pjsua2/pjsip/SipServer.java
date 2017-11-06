@@ -1,4 +1,4 @@
-package me.boger.pjsua2.pjsip;
+package com.aleksandr_p.pjsua2.pjsip;
 
 import android.util.Log;
 

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="me.boger.pjsua2.activity.ContentActivity">
+    tools:context="com.aleksandr_p.pjsua2.activity.ContentActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

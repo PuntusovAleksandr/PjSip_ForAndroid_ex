@@ -1,4 +1,4 @@
-package me.boger.pjsua2.activity;
+package com.aleksandr_p.pjsua2.activity;
 
 
 import android.content.Context;

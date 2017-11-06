@@ -1,4 +1,4 @@
-package me.boger.pjsua2.fragment;
+package com.aleksandr_p.pjsua2.fragment;
 
 
 import android.os.Bundle;
@@ -16,46 +16,48 @@ import org.pjsip.pjsua2.CallInfo;
 import org.pjsip.pjsua2.CallOpParam;
 import org.pjsip.pjsua2.pjsip_status_code;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.boger.pjsua2.MyApplication;
-import me.boger.pjsua2.R;
-import me.boger.pjsua2.pjsip.SipObservable;
-import me.boger.pjsua2.pjsip.SipServer;
-import me.boger.pjsua2.utils.StorageUtils;
+import butterknife.OnClick;
+import com.aleksandr_p.pjsua2.MyApplication;
+import com.aleksandr_p.pjsua2.R;
+import com.aleksandr_p.pjsua2.activity.ContentPresenterImpl;
+import com.aleksandr_p.pjsua2.pjsip.SipObservable;
+import com.aleksandr_p.pjsua2.pjsip.SipServer;
+import com.aleksandr_p.pjsua2.utils.StorageUtils;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SipFragment extends BaseFragment implements View.OnClickListener, SipObservable {
+public class SipFragment extends BaseFragment implements SipObservable {
 
     public static final String TAG = "SipFragment";
 
-    @Bind(R.id.tv_display)
+    @BindView(R.id.tv_display)
     TextView tvDisplay;
-    @Bind(R.id.tv_dialer_0)
+    @BindView(R.id.tv_dialer_0)
     TextView tvDialer0;
-    @Bind(R.id.tv_dialer_1)
+    @BindView(R.id.tv_dialer_1)
     TextView tvDialer1;
-    @Bind(R.id.tv_dialer_2)
+    @BindView(R.id.tv_dialer_2)
     TextView tvDialer2;
-    @Bind(R.id.tv_dialer_3)
+    @BindView(R.id.tv_dialer_3)
     TextView tvDialer3;
-    @Bind(R.id.tv_dialer_4)
+    @BindView(R.id.tv_dialer_4)
     TextView tvDialer4;
-    @Bind(R.id.tv_dialer_5)
+    @BindView(R.id.tv_dialer_5)
     TextView tvDialer5;
-    @Bind(R.id.tv_dialer_6)
+    @BindView(R.id.tv_dialer_6)
     TextView tvDialer6;
-    @Bind(R.id.tv_dialer_7)
+    @BindView(R.id.tv_dialer_7)
     TextView tvDialer7;
-    @Bind(R.id.tv_dialer_8)
+    @BindView(R.id.tv_dialer_8)
     TextView tvDialer8;
-    @Bind(R.id.tv_dialer_9)
+    @BindView(R.id.tv_dialer_9)
     TextView tvDialer9;
-    @Bind(R.id.tv_dialer_dial)
+    @BindView(R.id.tv_dialer_dial)
     TextView tvDialerDial;
-    @Bind(R.id.tv_dialer_del)
+    @BindView(R.id.tv_dialer_del)
     TextView tvDialerDel;
     View rootView;
 
@@ -76,23 +78,7 @@ public class SipFragment extends BaseFragment implements View.OnClickListener, S
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        init();
         rootView = view;
-    }
-
-    private void init() {
-        tvDialer0.setOnClickListener(this);
-        tvDialer1.setOnClickListener(this);
-        tvDialer2.setOnClickListener(this);
-        tvDialer3.setOnClickListener(this);
-        tvDialer4.setOnClickListener(this);
-        tvDialer5.setOnClickListener(this);
-        tvDialer6.setOnClickListener(this);
-        tvDialer7.setOnClickListener(this);
-        tvDialer8.setOnClickListener(this);
-        tvDialer9.setOnClickListener(this);
-        tvDialerDial.setOnClickListener(this);
-        tvDialerDel.setOnClickListener(this);
     }
 
     @Override
@@ -107,9 +93,20 @@ public class SipFragment extends BaseFragment implements View.OnClickListener, S
         String username = StorageUtils.getString(MyApplication.instance.getApplicationContext(), "username");
         String password = StorageUtils.getString(MyApplication.instance.getApplicationContext(), "password");
         if (addr == null || username == null || password == null) {
+            saveConfs(ContentPresenterImpl.HOST, ContentPresenterImpl.ESER, ContentPresenterImpl.PASSWORD);
+            loadConfs();
             return;
         }
         MyApplication.instance.getSipServer().createAcc(addr, username, password);
+    }
+
+
+    private void saveConfs(String addr, String username, String password) {
+        StorageUtils.createStorager(getActivity())
+                .putString("addr", addr)
+                .putString("username", username)
+                .putString("password", password)
+                .commit();
     }
 
     @Override
@@ -118,8 +115,21 @@ public class SipFragment extends BaseFragment implements View.OnClickListener, S
         MyApplication.instance.getSipServer().removeObserver(this);
     }
 
-    @Override
-    public void onClick(View v) {
+
+    //    @OnClick({R.id.tv_dialer_dial,
+//            R.id.tv_dialer_del,
+//            R.id.tv_dialer_0,
+//            R.id.tv_dialer_1,
+//            R.id.tv_dialer_2,
+//            R.id.tv_dialer_3,
+//            R.id.tv_dialer_4,
+//            R.id.tv_dialer_5,
+//            R.id.tv_dialer_6,
+//            R.id.tv_dialer_8,
+//            R.id.tv_dialer_8,
+//            R.id.tv_dialer_9,
+//            R.id.tv_display})
+    public void clicksiews(View v) {
         switch (v.getId()) {
             case R.id.tv_dialer_dial:
                 performDial();
@@ -127,11 +137,18 @@ public class SipFragment extends BaseFragment implements View.OnClickListener, S
             case R.id.tv_dialer_del:
                 performDel();
                 break;
+            case R.id.tv_display:
+                break;
             default:
                 if (v instanceof TextView) {
                     performDigit(((TextView) v).getText());
                 }
         }
+    }
+
+    @OnClick(R.id.tv_dialer_dial)
+    public void clDial() {
+        performDial();
     }
 
     private void performDial() {

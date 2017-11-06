@@ -1,4 +1,4 @@
-package me.boger.pjsua2.activity;
+package com.aleksandr_p.pjsua2.activity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,21 +12,21 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.boger.pjsua2.MyApplication;
-import me.boger.pjsua2.R;
+import butterknife.OnClick;
+import com.aleksandr_p.pjsua2.MyApplication;
+import com.aleksandr_p.pjsua2.R;
 
-public class ContentActivity extends FragmentActivity implements ContentView, View.OnClickListener {
+public class ContentActivity extends FragmentActivity implements ContentView {
 
     private ContentPresenter mPresenter;
     private FragmentManager fragmentManager;
 
-    @Bind(R.id.tv_conf)
+    @BindView(R.id.tv_conf)
     TextView tvConf;
-    @Bind(R.id.tv_close)
+    @BindView(R.id.tv_close)
     TextView tvClose;
 
     @Override
@@ -39,7 +39,6 @@ public class ContentActivity extends FragmentActivity implements ContentView, Vi
         if (null == savedInstanceState) {
             mPresenter.init();
         }
-        init();
 
     }
 
@@ -47,11 +46,6 @@ public class ContentActivity extends FragmentActivity implements ContentView, Vi
     protected void onDestroy() {
         super.onDestroy();
         MyApplication.instance.getSipServer().deinit();
-    }
-
-    private void init() {
-        tvConf.setOnClickListener(this);
-        tvClose.setOnClickListener(this);
     }
 
     @Override
@@ -128,8 +122,8 @@ public class ContentActivity extends FragmentActivity implements ContentView, Vi
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @Override
-    public void onClick(View v) {
+    @OnClick({R.id.tv_conf, R.id.tv_close})
+    public void onClicksCiews2(View v) {
         switch (v.getId()) {
             case R.id.tv_conf:
                 mPresenter.openConfDialog();

@@ -1,8 +1,8 @@
-package me.boger.pjsua2;
+package com.aleksandr_p.pjsua2;
 
 import android.app.Application;
 
-import me.boger.pjsua2.pjsip.SipServer;
+import com.aleksandr_p.pjsua2.pjsip.SipServer;
 
 /**
  * Created by bogerchan on 2016/1/27.

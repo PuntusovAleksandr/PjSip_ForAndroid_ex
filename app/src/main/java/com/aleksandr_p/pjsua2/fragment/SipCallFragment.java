@@ -1,4 +1,4 @@
-package me.boger.pjsua2.fragment;
+package com.aleksandr_p.pjsua2.fragment;
 
 
 import android.os.Bundle;
@@ -15,23 +15,24 @@ import org.pjsip.pjsua2.CallInfo;
 import org.pjsip.pjsua2.pjsip_inv_state;
 import org.pjsip.pjsua2.pjsip_status_code;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.boger.pjsua2.MyApplication;
-import me.boger.pjsua2.R;
-import me.boger.pjsua2.pjsip.SipObservable;
-import me.boger.pjsua2.pjsip.SipServer;
+import butterknife.OnClick;
+import com.aleksandr_p.pjsua2.MyApplication;
+import com.aleksandr_p.pjsua2.R;
+import com.aleksandr_p.pjsua2.pjsip.SipObservable;
+import com.aleksandr_p.pjsua2.pjsip.SipServer;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SipCallFragment extends BaseFragment implements View.OnClickListener, SipObservable {
+public class SipCallFragment extends BaseFragment implements SipObservable {
 
-    @Bind(R.id.tv_call_display)
+    @BindView(R.id.tv_call_display)
     TextView tvDisplay;
-    @Bind(R.id.tv_call_answer)
+    @BindView(R.id.tv_call_answer)
     TextView tvAnswer;
-    @Bind(R.id.tv_call_reject)
+    @BindView(R.id.tv_call_reject)
     TextView tvReject;
 
     private SipServer server;
@@ -54,7 +55,6 @@ public class SipCallFragment extends BaseFragment implements View.OnClickListene
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        init();
     }
 
     @Override
@@ -68,13 +68,9 @@ public class SipCallFragment extends BaseFragment implements View.OnClickListene
         server.addObserver(this);
     }
 
-    private void init() {
-        tvAnswer.setOnClickListener(this);
-        tvReject.setOnClickListener(this);
-    }
 
-    @Override
-    public void onClick(View v) {
+    @OnClick({R.id.tv_call_answer, R.id.tv_call_reject})
+    public void onClicksCiews22(View v) {
         switch (v.getId()) {
             case R.id.tv_call_answer:
                 performAnswer(v);

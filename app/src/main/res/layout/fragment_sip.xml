@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="me.boger.pjsua2.fragment.SipFragment">
+    tools:context="com.aleksandr_p.pjsua2.fragment.SipFragment">
 
     <TextView
         android:id="@+id/tv_display"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:padding="15dp"
-        android:text="6001"
+        android:text="1022"
         android:textColor="@color/dialer_display"
         android:textSize="35dp" />
 
