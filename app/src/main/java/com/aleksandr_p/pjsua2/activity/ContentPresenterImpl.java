@@ -10,8 +10,8 @@ public class ContentPresenterImpl implements ContentPresenter {
 
     public static final String PORT = "5060";
     public static final String HOST = "80.209.239.116:"+PORT;
-    public static final String ESER = "1021";
-    public static final String PASSWORD = "il9ei1h9eS8ieR";
+    public static final String ESER = "1025";
+    public static final String PASSWORD = "Ahg3Ai3SdSil9K";
 //    sip_host: 80.209.239.116
 // sip_port: 5060
 // sip_login: 1021
@@ -20,6 +20,12 @@ public class ContentPresenterImpl implements ContentPresenter {
 // sip_port: 5060
 // sip_login: 1022
 // sip_pass: Ahg3Ai35ueil9e
+
+//    [1021](my_users)    secret=il9ei1h9eS8ieR
+//    [1022](my_users)    secret=Ahg3Ai35ueil9e
+//    [1023](my_users)    secret=il9eEEh9eS8ieR
+//    [1024](my_users)    secret=Ahg3Ai3RReil9e
+//    [1025](my_users)    secret=Ahg3Ai3SdSil9K
 
     private ContentView contentView;
 
